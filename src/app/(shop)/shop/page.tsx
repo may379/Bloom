@@ -68,14 +68,21 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
   return (
     <div className="pt-20 min-h-screen bg-[#fdfaf9]">
-      <ShopContent
-        flowers={flowers}
-        total={total}
-        pages={Math.ceil(total / limit)}
-        currentPage={page}
-        categories={categories}
-        searchParams={searchParams}
-      />
+      <Suspense fallback={
+        <div className="max-w-7xl mx-auto px-4 py-20 text-center">
+          <div className="text-5xl mb-4">🌸</div>
+          <p className="text-stone-400">Loading bouquets...</p>
+        </div>
+      }>
+        <ShopContent
+          flowers={flowers}
+          total={total}
+          pages={Math.ceil(total / limit)}
+          currentPage={page}
+          categories={categories}
+          searchParams={searchParams}
+        />
+      </Suspense>
     </div>
   )
 }
