@@ -28,7 +28,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </main>
 
       <footer className="p-6 text-center text-xs text-stone-400">
-        © 2024 Bloom & Blossom. Made with 🌸 in Amsterdam.
+        © 2026 Bloom & Blossom. Made with 🌸 .
       </footer>
     </div>
   )
