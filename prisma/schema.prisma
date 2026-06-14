@@ -89,13 +89,13 @@ model VerificationToken {
 }
 
 model Category {
-  id          String    @id @default(cuid())
-  name        String    @unique
-  slug        String    @unique
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
   description String?
   image       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   flowers Flower[]
 
@@ -103,22 +103,22 @@ model Category {
 }
 
 model Flower {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String   @db.Text
-  price       Decimal  @db.Decimal(10, 2)
+  id           String   @id @default(cuid())
+  name         String
+  slug         String   @unique
+  description  String   @db.Text
+  price        Decimal  @db.Decimal(10, 2)
   comparePrice Decimal? @db.Decimal(10, 2)
-  stock       Int      @default(0)
-  categoryId  String
-  featured    Boolean  @default(false)
-  bestseller  Boolean  @default(false)
-  isNew       Boolean  @default(false)
-  occasion    String[]
-  colors      String[]
-  tags        String[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  stock        Int      @default(0)
+  categoryId   String
+  featured     Boolean  @default(false)
+  bestseller   Boolean  @default(false)
+  isNew        Boolean  @default(false)
+  occasion     String[]
+  colors       String[]
+  tags         String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   category   Category       @relation(fields: [categoryId], references: [id])
   images     ProductImage[]
@@ -182,41 +182,34 @@ model CartItem {
   updatedAt DateTime @updatedAt
 
   cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  flower Flower @relation(fields: [flowerId], references: [id], onDelete: Cascade)
+  flower Flower @relation(fields: [flowerId], references: [id], onDelete: Restrict)
 
   @@unique([cartId, flowerId])
   @@map("cart_items")
 }
 
 model Order {
-  id              String      @id @default(cuid())
-  userId          String
-  status          OrderStatus @default(PENDING)
-  total           Decimal     @db.Decimal(10, 2)
-  subtotal        Decimal     @db.Decimal(10, 2)
-  shipping        Decimal     @db.Decimal(10, 2) @default(0)
-  tax             Decimal     @db.Decimal(10, 2) @default(0)
-  discount        Decimal     @db.Decimal(10, 2) @default(0)
-  
-  // Shipping address
-  firstName       String
-  lastName        String
-  email           String
-  phone           String?
-  address         String
-  city            String
-  country         String
-  postalCode      String
-  
-  // Notes
-  notes           String?     @db.Text
-  
-  // Tracking
-  trackingNumber  String?
+  id                String      @id @default(cuid())
+  userId            String
+  status            OrderStatus @default(PENDING)
+  total             Decimal     @db.Decimal(10, 2)
+  subtotal          Decimal     @db.Decimal(10, 2)
+  shipping          Decimal     @default(0) @db.Decimal(10, 2)
+  tax               Decimal     @default(0) @db.Decimal(10, 2)
+  discount          Decimal     @default(0) @db.Decimal(10, 2)
+  firstName         String
+  lastName          String
+  email             String
+  phone             String?
+  address           String
+  city              String
+  country           String
+  postalCode        String
+  notes             String?     @db.Text
+  trackingNumber    String?
   estimatedDelivery DateTime?
-  
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 
   user  User        @relation(fields: [userId], references: [id])
   items OrderItem[]
@@ -225,16 +218,16 @@ model Order {
 }
 
 model OrderItem {
-  id        String  @id @default(cuid())
-  orderId   String
-  flowerId  String
-  quantity  Int
-  price     Decimal @db.Decimal(10, 2)
-  name      String
-  image     String?
+  id       String  @id @default(cuid())
+  orderId  String
+  flowerId String
+  quantity Int
+  price    Decimal @db.Decimal(10, 2)
+  name     String
+  image    String?
 
   order  Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  flower Flower @relation(fields: [flowerId], references: [id])
+  flower Flower @relation(fields: [flowerId], references: [id], onDelete: Restrict)
 
   @@map("order_items")
 }

@@ -16,7 +16,15 @@ const categoryEmojis: Record<string, string> = {
   'mothers-day': '👑',
   'valentines-day': '❤️',
   sympathy: '🕊️',
+  'luxury-collection': '💎',
+  'seasonal-collection': '🍂',
+  'corporate-gifts': '💼',
+  plants: '🪴',
+  'dried-flowers': '🌾',
 }
+
+
+
 
 export function CategoriesSection({ categories }: CategoriesSectionProps) {
   return (
