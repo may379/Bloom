@@ -15,7 +15,7 @@ async function main() {
         name: 'Wedding',
         slug: 'wedding',
         description: 'Exquisite floral arrangements for your perfect wedding day',
-        image: '/images/Wedding category.jpg',
+        image: '/images/wedding-category.jpg',
       },
     }),
     prisma.category.upsert({
@@ -25,7 +25,7 @@ async function main() {
         name: 'Birthday',
         slug: 'birthday',
         description: 'Vibrant and joyful bouquets to celebrate life',
-        image: '/images/Birthday category.jpg',
+        image: '/images/birthday-category.jpg',
       },
     }),
     prisma.category.upsert({
@@ -35,7 +35,7 @@ async function main() {
         name: 'Anniversary',
         slug: 'anniversary',
         description: 'Romantic arrangements to celebrate your love story',
-        image: '/images/Anniversary category.jpg',
+        image: '/images/anniversary-category.jpg',
       },
     }),
     prisma.category.upsert({
@@ -45,7 +45,7 @@ async function main() {
         name: "Mother's Day",
         slug: 'mothers-day',
         description: "Show your love with our beautiful Mother's Day collections",
-        image: "/images/Mother's Day category.jpg",
+        image: "/images/mothers-day-category.jpg",
       },
     }),
     prisma.category.upsert({
@@ -55,7 +55,7 @@ async function main() {
         name: "Valentine's Day",
         slug: 'valentines-day',
         description: "Express your deepest love with our Valentine's collections",
-        image: "/images/Valentine's Day category.jpg",
+        image: "/images/valentines-day-category.jpg",
       },
     }),
     prisma.category.upsert({
@@ -65,7 +65,7 @@ async function main() {
         name: 'Sympathy',
         slug: 'sympathy',
         description: 'Thoughtful arrangements for moments of comfort',
-        image: '/images/Sympathy category.jpg',
+        image: '/images/sympathy-category.jpg',
       },
     }),
     prisma.category.upsert({
@@ -75,7 +75,7 @@ async function main() {
         name: 'Seasonal',
         slug: 'seasonal',
         description: "Fresh seasonal blooms celebrating nature's finest moments",
-        image: '/images/Seasonal category.jpg',
+        image: '/images/seasonal-category.jpg',
       },
     }),
     prisma.category.upsert({
@@ -85,7 +85,7 @@ async function main() {
         name: 'Luxury Collection',
         slug: 'luxury',
         description: 'Our most exquisite and premium floral masterpieces',
-        image: '/images/Luxury Collection.jpg',
+        image: '/images/luxury-collection.jpg',
       },
     }),
   ])
@@ -134,9 +134,9 @@ async function main() {
       colors: ['Red', 'White'],
       tags: ['roses', 'romantic', 'luxury', 'bestseller', 'red roses'],
       images: [
-        { url: '/images/Eternal Rose Bouquet.jpg', alt: 'Eternal Rose Bouquet', isPrimary: true },
-        { url: '/images/Rose detail close-up.jpg', alt: 'Rose detail close-up', isPrimary: false },
-        { url: '/images/Bouquet packaging.jpg', alt: 'Bouquet packaging', isPrimary: false },
+        { url: '/images/eternal-rose-bouquet.jpg', alt: 'Eternal Rose Bouquet', isPrimary: true },
+        { url: '/images/rose-detail-close-up.jpg', alt: 'Rose detail close-up', isPrimary: false },
+        { url: '/images/bouquet-packaging.jpg', alt: 'Bouquet packaging', isPrimary: false },
       ],
     },
     {
@@ -149,9 +149,9 @@ async function main() {
       colors: ['Red', 'Scarlet'],
       tags: ['roses', 'luxury', 'grand', '50 roses', 'proposal'],
       images: [
-        { url: '/images/Scarlet Passion Roses.jpg', alt: 'Scarlet Passion Roses', isPrimary: true },
-        { url: '/images/Rose arrangement detail.jpg', alt: 'Rose arrangement detail', isPrimary: false },
-        { url: '/images/Luxury packaging.jpg', alt: 'Luxury packaging', isPrimary: false },
+        { url: '/images/scarlet-passion-roses.jpg', alt: 'Scarlet Passion Roses', isPrimary: true },
+        { url: '/images/rose-arrangement-detail.jpg', alt: 'Rose arrangement detail', isPrimary: false },
+        { url: '/images/luxury-packaging.jpg', alt: 'Luxury packaging', isPrimary: false },
       ],
     },
     {
@@ -164,9 +164,9 @@ async function main() {
       colors: ['Blush', 'Cream', 'Pink'],
       tags: ['garden roses', 'romantic', 'cottage', 'blush'],
       images: [
-        { url: '/images/Blush Garden Roses.jpg', alt: 'Blush Garden Roses', isPrimary: true },
-        { url: '/images/Garden roses close-up.jpg', alt: 'Garden roses close-up', isPrimary: false },
-        { url: '/images/Blush tones detail.jpg', alt: 'Blush tones detail', isPrimary: false },
+        { url: '/images/blush-garden-roses.jpg', alt: 'Blush Garden Roses', isPrimary: true },
+        { url: '/images/garden-roses-close-up.jpg', alt: 'Garden roses close-up', isPrimary: false },
+        { url: '/images/blush-tones-detail.jpg', alt: 'Blush tones detail', isPrimary: false },
       ],
     },
     {
@@ -179,9 +179,9 @@ async function main() {
       colors: ['Black', 'Burgundy', 'Dark'],
       tags: ['roses', 'dramatic', 'luxury', 'dark', 'unique'],
       images: [
-        { url: '/images/Midnight Black Rose.jpg', alt: 'Midnight Black Rose', isPrimary: true },
-        { url: '/images/Dark rose detail.jpg', alt: 'Dark rose detail', isPrimary: false },
-        { url: '/images/Black rose arrangement.jpg', alt: 'Black rose arrangement', isPrimary: false },
+        { url: '/images/midnight-black-rose.jpg', alt: 'Midnight Black Rose', isPrimary: true },
+        { url: '/images/dark-rose-detail.jpg', alt: 'Dark rose detail', isPrimary: false },
+        { url: '/images/black-rose-arrangement.jpg', alt: 'Black rose arrangement', isPrimary: false },
       ],
     },
     {
@@ -194,9 +194,9 @@ async function main() {
       colors: ['Mixed', 'Pink', 'Coral', 'Lavender', 'Peach'],
       tags: ['roses', 'colorful', 'rainbow', 'birthday', 'joyful'],
       images: [
-        { url: '/images/Rainbow Rose Fantasy.jpg', alt: 'Rainbow Rose Fantasy', isPrimary: true },
-        { url: '/images/Colorful roses detail.jpg', alt: 'Colorful roses detail', isPrimary: false },
-        { url: '/images/Mixed rose colors.jpg', alt: 'Mixed rose colors', isPrimary: false },
+        { url: '/images/rainbow-rose-fantasy.jpg', alt: 'Rainbow Rose Fantasy', isPrimary: true },
+        { url: '/images/colorful-roses-detail.jpg', alt: 'Colorful roses detail', isPrimary: false },
+        { url: '/images/mixed-rose-colors.jpg', alt: 'Mixed rose colors', isPrimary: false },
       ],
     },
 
@@ -213,9 +213,9 @@ async function main() {
       colors: ['Pink', 'Blush', 'Green'],
       tags: ['peonies', 'romantic', 'garden', 'blush'],
       images: [
-        { url: '/images/Blush Peony Dreams.jpg', alt: 'Blush Peony Dreams', isPrimary: true },
-        { url: '/images/Peony close-up.jpg', alt: 'Peony close-up', isPrimary: false },
-        { url: '/images/Peony bouquet detail.jpg', alt: 'Peony bouquet detail', isPrimary: false },
+        { url: '/images/blush-peony-dreams.jpg', alt: 'Blush Peony Dreams', isPrimary: true },
+        { url: '/images/peony-close-up.jpg', alt: 'Peony close-up', isPrimary: false },
+        { url: '/images/peony-bouquet-detail.jpg', alt: 'Peony bouquet detail', isPrimary: false },
       ],
     },
     {
@@ -228,9 +228,9 @@ async function main() {
       colors: ['Pink', 'Cream', 'Lavender'],
       tags: ['mothers day', 'peonies', 'warm', 'heartfelt'],
       images: [
-        { url: "/images/Mum's Favourite Peonies.jpg", alt: "Mum's Favourite Peonies", isPrimary: true },
-        { url: '/images/Pink peonies detail.jpg', alt: 'Pink peonies detail', isPrimary: false },
-        { url: '/images/Peony arrangement.jpg', alt: 'Peony arrangement', isPrimary: false },
+        { url: "/images/mums-favourite-peonies.jpg", alt: "Mum's Favourite Peonies", isPrimary: true },
+        { url: '/images/pink-peonies-detail.jpg', alt: 'Pink peonies detail', isPrimary: false },
+        { url: '/images/peony-arrangement.jpg', alt: 'Peony arrangement', isPrimary: false },
       ],
     },
     {
@@ -243,9 +243,9 @@ async function main() {
       colors: ['Coral', 'Orange', 'Apricot', 'Gold'],
       tags: ['peonies', 'coral', 'sunrise', 'vibrant'],
       images: [
-        { url: '/images/Coral Peony Sunrise.jpg', alt: 'Coral Peony Sunrise', isPrimary: true },
-        { url: '/images/Coral tones detail.jpg', alt: 'Coral tones detail', isPrimary: false },
-        { url: '/images/Sunrise arrangement.jpg', alt: 'Sunrise arrangement', isPrimary: false },
+        { url: '/images/coral-peony-sunrise.jpg', alt: 'Coral Peony Sunrise', isPrimary: true },
+        { url: '/images/coral-tones-detail.jpg', alt: 'Coral tones detail', isPrimary: false },
+        { url: '/images/sunrise-arrangement.jpg', alt: 'Sunrise arrangement', isPrimary: false },
       ],
     },
 
@@ -262,9 +262,9 @@ async function main() {
       colors: ['Pink', 'White', 'Purple', 'Mixed'],
       tags: ['tulips', 'dutch', 'spring', 'elegant'],
       images: [
-        { url: '/images/Dutch Tulip Symphony.jpg', alt: 'Dutch Tulip Symphony', isPrimary: true },
-        { url: '/images/Tulip close-up.jpg', alt: 'Tulip close-up', isPrimary: false },
-        { url: '/images/Tulip arrangement.jpg', alt: 'Tulip arrangement', isPrimary: false },
+        { url: '/images/dutch-tulip-symphony.jpg', alt: 'Dutch Tulip Symphony', isPrimary: true },
+        { url: '/images/tulip-close-up.jpg', alt: 'Tulip close-up', isPrimary: false },
+        { url: '/images/tulip-arrangement.jpg', alt: 'Tulip arrangement', isPrimary: false },
       ],
     },
     {
@@ -277,9 +277,9 @@ async function main() {
       colors: ['Red', 'Orange', 'Scarlet'],
       tags: ['tulips', 'passionate', 'dramatic', 'red'],
       images: [
-        { url: '/images/Scarlet Tulip Passion.jpg', alt: 'Scarlet Tulip Passion', isPrimary: true },
-        { url: '/images/Red tulip detail.jpg', alt: 'Red tulip detail', isPrimary: false },
-        { url: '/images/Tulip bouquet.jpg', alt: 'Tulip bouquet', isPrimary: false },
+        { url: '/images/scarlet-tulip-passion.jpg', alt: 'Scarlet Tulip Passion', isPrimary: true },
+        { url: '/images/red-tulip-detail.jpg', alt: 'Red tulip detail', isPrimary: false },
+        { url: '/images/tulip-bouquet.jpg', alt: 'Tulip bouquet', isPrimary: false },
       ],
     },
     {
@@ -292,9 +292,9 @@ async function main() {
       colors: ['Purple', 'Violet', 'Mauve'],
       tags: ['tulips', 'parrot', 'exotic', 'rare', 'purple'],
       images: [
-        { url: '/images/Purple Parrot Tulips.jpg', alt: 'Purple Parrot Tulips', isPrimary: true },
-        { url: '/images/Parrot tulip detail.jpg', alt: 'Parrot tulip detail', isPrimary: false },
-        { url: '/images/Exotic tulip arrangement.jpg', alt: 'Exotic tulip arrangement', isPrimary: false },
+        { url: '/images/purple-parrot-tulips.jpg', alt: 'Purple Parrot Tulips', isPrimary: true },
+        { url: '/images/parrot-tulip-detail.jpg', alt: 'Parrot tulip detail', isPrimary: false },
+        { url: '/images/exotic-tulip-arrangement.jpg', alt: 'Exotic tulip arrangement', isPrimary: false },
       ],
     },
 
@@ -311,9 +311,9 @@ async function main() {
       colors: ['White', 'Ivory'],
       tags: ['orchids', 'luxury', 'elegant', 'white', 'sophisticated'],
       images: [
-        { url: '/images/White Orchid Elegance.jpg', alt: 'White Orchid Elegance', isPrimary: true },
-        { url: '/images/Orchid close-up.jpg', alt: 'Orchid close-up', isPrimary: false },
-        { url: '/images/Orchid arrangement detail.jpg', alt: 'Orchid arrangement detail', isPrimary: false },
+        { url: '/images/white-orchid-elegance.jpg', alt: 'White Orchid Elegance', isPrimary: true },
+        { url: '/images/orchid-close-up.jpg', alt: 'Orchid close-up', isPrimary: false },
+        { url: '/images/orchid-arrangement-detail.jpg', alt: 'Orchid arrangement detail', isPrimary: false },
       ],
     },
     {
@@ -326,9 +326,9 @@ async function main() {
       colors: ['Pink', 'Purple', 'Green'],
       tags: ['orchids', 'tropical', 'exotic', 'pink', 'luxury'],
       images: [
-        { url: '/images/Pink Orchid Paradise.jpg', alt: 'Pink Orchid Paradise', isPrimary: true },
-        { url: '/images/Pink orchid detail.jpg', alt: 'Pink orchid detail', isPrimary: false },
-        { url: '/images/Orchid paradise arrangement.jpg', alt: 'Orchid paradise arrangement', isPrimary: false },
+        { url: '/images/pink-orchid-paradise.jpg', alt: 'Pink Orchid Paradise', isPrimary: true },
+        { url: '/images/pink-orchid-detail.jpg', alt: 'Pink orchid detail', isPrimary: false },
+        { url: '/images/orchid-paradise-arrangement.jpg', alt: 'Orchid paradise arrangement', isPrimary: false },
       ],
     },
 
@@ -345,9 +345,9 @@ async function main() {
       colors: ['Yellow', 'Orange', 'Gold'],
       tags: ['sunflowers', 'cheerful', 'vibrant', 'birthday', 'yellow'],
       images: [
-        { url: '/images/Sunshine Garden Burst.jpg', alt: 'Sunshine Garden Burst', isPrimary: true },
-        { url: '/images/Sunflower close-up.jpg', alt: 'Sunflower close-up', isPrimary: false },
-        { url: '/images/Yellow bouquet detail.jpg', alt: 'Yellow bouquet detail', isPrimary: false },
+        { url: '/images/sunshine-garden-burst.jpg', alt: 'Sunshine Garden Burst', isPrimary: true },
+        { url: '/images/sunflower-close-up.jpg', alt: 'Sunflower close-up', isPrimary: false },
+        { url: '/images/yellow-bouquet-detail.jpg', alt: 'Yellow bouquet detail', isPrimary: false },
       ],
     },
     {
@@ -360,9 +360,9 @@ async function main() {
       colors: ['Yellow', 'Gold', 'Orange', 'Brown'],
       tags: ['sunflowers', 'harvest', 'rustic', 'autumn', 'giant'],
       images: [
-        { url: '/images/Giant Sunflower Harvest.jpg', alt: 'Giant Sunflower Harvest', isPrimary: true },
-        { url: '/images/Sunflower harvest detail.jpg', alt: 'Sunflower harvest detail', isPrimary: false },
-        { url: '/images/Rustic sunflower arrangement.jpg', alt: 'Rustic sunflower arrangement', isPrimary: false },
+        { url: '/images/giant-sunflower-harvest.jpg', alt: 'Giant Sunflower Harvest', isPrimary: true },
+        { url: '/images/sunflower-harvest-detail.jpg', alt: 'Sunflower harvest detail', isPrimary: false },
+        { url: '/images/rustic-sunflower-arrangement.jpg', alt: 'Rustic sunflower arrangement', isPrimary: false },
       ],
     },
 
@@ -379,9 +379,9 @@ async function main() {
       colors: ['Mixed', 'Blue', 'Pink', 'White', 'Purple'],
       tags: ['wildflowers', 'rustic', 'meadow', 'charming', 'natural'],
       images: [
-        { url: '/images/Wildflower Meadow.jpg', alt: 'Wildflower Meadow', isPrimary: true },
-        { url: '/images/Wildflower detail.jpg', alt: 'Wildflower detail', isPrimary: false },
-        { url: '/images/Meadow arrangement.jpg', alt: 'Meadow arrangement', isPrimary: false },
+        { url: '/images/wildflower-meadow.jpg', alt: 'Wildflower Meadow', isPrimary: true },
+        { url: '/images/wildflower-detail.jpg', alt: 'Wildflower detail', isPrimary: false },
+        { url: '/images/meadow-arrangement.jpg', alt: 'Meadow arrangement', isPrimary: false },
       ],
     },
     {
@@ -394,9 +394,9 @@ async function main() {
       colors: ['Beige', 'Cream', 'Lavender', 'Natural'],
       tags: ['dried flowers', 'boho', 'pampas', 'lavender', 'rustic'],
       images: [
-        { url: '/images/Boho Wildflower Wreath.jpg', alt: 'Boho Wildflower Wreath', isPrimary: true },
-        { url: '/images/Dried flower detail.jpg', alt: 'Dried flower detail', isPrimary: false },
-        { url: '/images/Boho arrangement.jpg', alt: 'Boho arrangement', isPrimary: false },
+        { url: '/images/boho-wildflower-wreath.jpg', alt: 'Boho Wildflower Wreath', isPrimary: true },
+        { url: '/images/dried-flower-detail.jpg', alt: 'Dried flower detail', isPrimary: false },
+        { url: '/images/boho-arrangement.jpg', alt: 'Boho arrangement', isPrimary: false },
       ],
     },
 
@@ -413,9 +413,9 @@ async function main() {
       colors: ['Lavender', 'Purple', 'White', 'Silver'],
       tags: ['lavender', 'calming', 'elegant', 'provence', 'fragrant'],
       images: [
-        { url: '/images/Lavender Whisper.jpg', alt: 'Lavender Whisper', isPrimary: true },
-        { url: '/images/Lavender close-up.jpg', alt: 'Lavender close-up', isPrimary: false },
-        { url: '/images/Lavender arrangement.jpg', alt: 'Lavender arrangement', isPrimary: false },
+        { url: '/images/lavender-whisper.jpg', alt: 'Lavender Whisper', isPrimary: true },
+        { url: '/images/lavender-close-up.jpg', alt: 'Lavender close-up', isPrimary: false },
+        { url: '/images/lavender-arrangement.jpg', alt: 'Lavender arrangement', isPrimary: false },
       ],
     },
 
@@ -432,9 +432,9 @@ async function main() {
       colors: ['White', 'Ivory', 'Cream'],
       tags: ['wedding', 'bridal', 'luxury', 'orchids', 'cascade'],
       images: [
-        { url: '/images/White Wedding Cascade.jpg', alt: 'White Wedding Cascade', isPrimary: true },
-        { url: '/images/Bridal bouquet detail.jpg', alt: 'Bridal bouquet detail', isPrimary: false },
-        { url: '/images/Wedding flowers.jpg', alt: 'Wedding flowers', isPrimary: false },
+        { url: '/images/white-wedding-cascade.jpg', alt: 'White Wedding Cascade', isPrimary: true },
+        { url: '/images/bridal-bouquet-detail.jpg', alt: 'Bridal bouquet detail', isPrimary: false },
+        { url: '/images/wedding-flowers.jpg', alt: 'Wedding flowers', isPrimary: false },
       ],
     },
     {
@@ -447,9 +447,9 @@ async function main() {
       colors: ['Blush', 'Pink', 'White'],
       tags: ['wedding', 'bridal', 'romantic', 'blush', 'peonies'],
       images: [
-        { url: '/images/Romantic Blush Bridal.jpg', alt: 'Romantic Blush Bridal', isPrimary: true },
-        { url: '/images/Blush bridal detail.jpg', alt: 'Blush bridal detail', isPrimary: false },
-        { url: '/images/Bridal bouquet.jpg', alt: 'Bridal bouquet', isPrimary: false },
+        { url: '/images/romantic-blush-bridal.jpg', alt: 'Romantic Blush Bridal', isPrimary: true },
+        { url: '/images/blush-bridal-detail.jpg', alt: 'Blush bridal detail', isPrimary: false },
+        { url: '/images/bridal-bouquet.jpg', alt: 'Bridal bouquet', isPrimary: false },
       ],
     },
     {
@@ -462,9 +462,9 @@ async function main() {
       colors: ['Blush', 'Pink', 'Green', 'Silver'],
       tags: ['wedding', 'bridesmaid', 'set', 'luxury', 'coordinated'],
       images: [
-        { url: '/images/Bridal Party Harmony.jpg', alt: 'Bridal Party Harmony', isPrimary: true },
-        { url: '/images/Bridesmaid bouquet detail.jpg', alt: 'Bridesmaid bouquet detail', isPrimary: false },
-        { url: '/images/Wedding party flowers.jpg', alt: 'Wedding party flowers', isPrimary: false },
+        { url: '/images/bridal-party-harmony.jpg', alt: 'Bridal Party Harmony', isPrimary: true },
+        { url: '/images/bridesmaid-bouquet-detail.jpg', alt: 'Bridesmaid bouquet detail', isPrimary: false },
+        { url: '/images/wedding-party-flowers.jpg', alt: 'Wedding party flowers', isPrimary: false },
       ],
     },
 
@@ -481,9 +481,9 @@ async function main() {
       colors: ['Pink', 'White', 'Magenta'],
       tags: ['lilies', 'stargazer', 'fragrant', 'dramatic', 'pink'],
       images: [
-        { url: '/images/Stargazer Lily Drama.jpg', alt: 'Stargazer Lily Drama', isPrimary: true },
-        { url: '/images/Stargazer lily close-up.jpg', alt: 'Stargazer lily close-up', isPrimary: false },
-        { url: '/images/Lily arrangement.jpg', alt: 'Lily arrangement', isPrimary: false },
+        { url: '/images/stargazer-lily-drama.jpg', alt: 'Stargazer Lily Drama', isPrimary: true },
+        { url: '/images/stargazer-lily-close-up.jpg', alt: 'Stargazer lily close-up', isPrimary: false },
+        { url: '/images/lily-arrangement.jpg', alt: 'Lily arrangement', isPrimary: false },
       ],
     },
     {
@@ -496,9 +496,9 @@ async function main() {
       colors: ['White', 'Ivory', 'Green'],
       tags: ['calla lily', 'minimalist', 'architectural', 'elegant', 'white'],
       images: [
-        { url: '/images/White Calla Lily Grace.jpg', alt: 'White Calla Lily Grace', isPrimary: true },
-        { url: '/images/Calla lily detail.jpg', alt: 'Calla lily detail', isPrimary: false },
-        { url: '/images/Minimalist lily arrangement.jpg', alt: 'Minimalist lily arrangement', isPrimary: false },
+        { url: '/images/white-calla-lily-grace.jpg', alt: 'White Calla Lily Grace', isPrimary: true },
+        { url: '/images/calla-lily-detail.jpg', alt: 'Calla lily detail', isPrimary: false },
+        { url: '/images/minimalist-lily-arrangement.jpg', alt: 'Minimalist lily arrangement', isPrimary: false },
       ],
     },
     {
@@ -511,9 +511,9 @@ async function main() {
       colors: ['White', 'Blue', 'Green'],
       tags: ['sympathy', 'lilies', 'peaceful', 'white', 'comfort'],
       images: [
-        { url: '/images/Soft Sympathy Lilies.jpg', alt: 'Soft Sympathy Lilies', isPrimary: true },
-        { url: '/images/White lily.jpg', alt: 'White lily detail', isPrimary: false },
-        { url: '/images/Sympathy arrangement.jpg', alt: 'Sympathy arrangement', isPrimary: false },
+        { url: '/images/soft-sympathy-lilies.jpg', alt: 'Soft Sympathy Lilies', isPrimary: true },
+        { url: '/images/white-lily.jpg', alt: 'White lily detail', isPrimary: false },
+        { url: '/images/sympathy-arrangement.jpg', alt: 'Sympathy arrangement', isPrimary: false },
       ],
     },
 
@@ -530,9 +530,9 @@ async function main() {
       colors: ['Blue', 'Lilac', 'White', 'Purple'],
       tags: ['hydrangeas', 'cloud', 'voluminous', 'blue', 'dreamy'],
       images: [
-        { url: '/images/Blue Hydrangea Cloud.jpg', alt: 'Blue Hydrangea Cloud', isPrimary: true },
-        { url: '/images/Hydrangea close-up.jpg', alt: 'Hydrangea close-up', isPrimary: false },
-        { url: '/images/Blue floral cloud.jpg', alt: 'Blue floral cloud', isPrimary: false },
+        { url: '/images/blue-hydrangea-cloud.jpg', alt: 'Blue Hydrangea Cloud', isPrimary: true },
+        { url: '/images/hydrangea-close-up.jpg', alt: 'Hydrangea close-up', isPrimary: false },
+        { url: '/images/blue-floral-cloud.jpg', alt: 'Blue floral cloud', isPrimary: false },
       ],
     },
     {
@@ -545,9 +545,9 @@ async function main() {
       colors: ['Pink', 'Blush', 'Rose'],
       tags: ['hydrangeas', 'pink', 'lush', 'romantic', 'full'],
       images: [
-        { url: '/images/Pink Hydrangea Garden.jpg', alt: 'Pink Hydrangea Garden', isPrimary: true },
-        { url: '/images/Pink hydrangea detail.jpg', alt: 'Pink hydrangea detail', isPrimary: false },
-        { url: '/images/Hydrangea garden arrangement.jpg', alt: 'Hydrangea garden arrangement', isPrimary: false },
+        { url: '/images/pink-hydrangea-garden.jpg', alt: 'Pink Hydrangea Garden', isPrimary: true },
+        { url: '/images/pink-hydrangea-detail.jpg', alt: 'Pink hydrangea detail', isPrimary: false },
+        { url: '/images/hydrangea-garden-arrangement.jpg', alt: 'Hydrangea garden arrangement', isPrimary: false },
       ],
     },
 
@@ -564,9 +564,9 @@ async function main() {
       colors: ['Orange', 'Burgundy', 'Rust', 'Gold', 'Caramel'],
       tags: ['dahlias', 'autumn', 'harvest', 'seasonal', 'warm tones'],
       images: [
-        { url: '/images/Autumn Dahlia Harvest.jpg', alt: 'Autumn Dahlia Harvest', isPrimary: true },
-        { url: '/images/Dahlia close-up.jpg', alt: 'Dahlia close-up', isPrimary: false },
-        { url: '/images/Autumn floral harvest.jpg', alt: 'Autumn floral harvest', isPrimary: false },
+        { url: '/images/autumn-dahlia-harvest.jpg', alt: 'Autumn Dahlia Harvest', isPrimary: true },
+        { url: '/images/dahlia-close-up.jpg', alt: 'Dahlia close-up', isPrimary: false },
+        { url: '/images/autumn-floral-harvest.jpg', alt: 'Autumn floral harvest', isPrimary: false },
       ],
     },
     {
@@ -579,9 +579,9 @@ async function main() {
       colors: ['Caramel', 'Apricot', 'Peach', 'Cream'],
       tags: ['dahlias', 'cafe au lait', 'luxury', 'coveted', 'rare'],
       images: [
-        { url: '/images/Café au Lait Dahlia.jpg', alt: 'Café au Lait Dahlia', isPrimary: true },
-        { url: '/images/Dahlia detail.jpg', alt: 'Dahlia detail', isPrimary: false },
-        { url: '/images/Luxury dahlia arrangement.jpg', alt: 'Luxury dahlia arrangement', isPrimary: false },
+        { url: '/images/cafe-au-lait-dahlia.jpg', alt: 'Café au Lait Dahlia', isPrimary: true },
+        { url: '/images/dahlia-detail.jpg', alt: 'Dahlia detail', isPrimary: false },
+        { url: '/images/luxury-dahlia-arrangement.jpg', alt: 'Luxury dahlia arrangement', isPrimary: false },
       ],
     },
 
@@ -598,9 +598,9 @@ async function main() {
       colors: ['Pink', 'White', 'Blush'],
       tags: ['cherry blossom', 'spring', 'delicate', 'japanese', 'seasonal'],
       images: [
-        { url: '/images/Spring Cherry Blossom.jpg', alt: 'Spring Cherry Blossom', isPrimary: true },
-        { url: '/images/Cherry blossom detail.jpg', alt: 'Cherry blossom detail', isPrimary: false },
-        { url: '/images/Spring arrangement.jpg', alt: 'Spring arrangement', isPrimary: false },
+        { url: '/images/spring-cherry-blossom.jpg', alt: 'Spring Cherry Blossom', isPrimary: true },
+        { url: '/images/cherry-blossom-detail.jpg', alt: 'Cherry blossom detail', isPrimary: false },
+        { url: '/images/spring-arrangement.jpg', alt: 'Spring arrangement', isPrimary: false },
       ],
     },
     {
@@ -613,9 +613,9 @@ async function main() {
       colors: ['Blue', 'Purple', 'White'],
       tags: ['iris', 'blue', 'ethereal', 'celestial', 'delicate'],
       images: [
-        { url: '/images/Celestial Blue Iris.jpg', alt: 'Celestial Blue Iris', isPrimary: true },
-        { url: '/images/Iris close-up.jpg', alt: 'Iris close-up', isPrimary: false },
-        { url: '/images/Blue iris arrangement.jpg', alt: 'Blue iris arrangement', isPrimary: false },
+        { url: '/images/celestial-blue-iris.jpg', alt: 'Celestial Blue Iris', isPrimary: true },
+        { url: '/images/iris-close-up.jpg', alt: 'Iris close-up', isPrimary: false },
+        { url: '/images/blue-iris-arrangement.jpg', alt: 'Blue iris arrangement', isPrimary: false },
       ],
     },
 
@@ -632,9 +632,9 @@ async function main() {
       colors: ['Gold', 'Yellow', 'Amber'],
       tags: ['anniversary', 'golden', 'luxury', 'dahlias', '50 years'],
       images: [
-        { url: '/images/Golden Anniversary.jpg', alt: 'Golden Anniversary', isPrimary: true },
-        { url: '/images/Gold floral detail.jpg', alt: 'Gold floral detail', isPrimary: false },
-        { url: '/images/Anniversary arrangement.jpg', alt: 'Anniversary arrangement', isPrimary: false },
+        { url: '/images/golden-anniversary.jpg', alt: 'Golden Anniversary', isPrimary: true },
+        { url: '/images/gold-floral-detail.jpg', alt: 'Gold floral detail', isPrimary: false },
+        { url: '/images/anniversary-arrangement.jpg', alt: 'Anniversary arrangement', isPrimary: false },
       ],
     },
     {
@@ -647,9 +647,9 @@ async function main() {
       colors: ['White', 'Green', 'Silver'],
       tags: ['eucalyptus', 'minimalist', 'modern', 'white', 'fresh'],
       images: [
-        { url: '/images/Eucalyptus & White Minimal.jpg', alt: 'Eucalyptus & White Minimal', isPrimary: true },
-        { url: '/images/Eucalyptus detail.jpg', alt: 'Eucalyptus detail', isPrimary: false },
-        { url: '/images/Minimalist white arrangement.jpg', alt: 'Minimalist white arrangement', isPrimary: false },
+        { url: '/images/eucalyptus-and-white-minimal.jpg', alt: 'Eucalyptus & White Minimal', isPrimary: true },
+        { url: '/images/eucalyptus-detail.jpg', alt: 'Eucalyptus detail', isPrimary: false },
+        { url: '/images/minimalist-white-arrangement.jpg', alt: 'Minimalist white arrangement', isPrimary: false },
       ],
     },
     {
@@ -662,9 +662,9 @@ async function main() {
       colors: ['Pink', 'Blush', 'Light Pink'],
       tags: ['pink', 'feminine', 'dreamy', 'roses', 'princess'],
       images: [
-        { url: '/images/Pink Princess Bouquet.jpg', alt: 'Pink Princess Bouquet', isPrimary: true },
-        { url: '/images/Pink bouquet detail.jpg', alt: 'Pink bouquet detail', isPrimary: false },
-        { url: '/images/Princess arrangement.jpg', alt: 'Princess arrangement', isPrimary: false },
+        { url: '/images/pink-princess-bouquet.jpg', alt: 'Pink Princess Bouquet', isPrimary: true },
+        { url: '/images/pink-bouquet-detail.jpg', alt: 'Pink bouquet detail', isPrimary: false },
+        { url: '/images/princess-arrangement.jpg', alt: 'Princess arrangement', isPrimary: false },
       ],
     },
     {
@@ -677,9 +677,9 @@ async function main() {
       colors: ['Orange', 'Red', 'Yellow', 'Green'],
       tags: ['tropical', 'exotic', 'bold', 'orchids', 'bird of paradise'],
       images: [
-        { url: '/images/Tropical Paradise.jpg', alt: 'Tropical Paradise', isPrimary: true },
-        { url: '/images/Tropical flowers detail.jpg', alt: 'Tropical flowers detail', isPrimary: false },
-        { url: '/images/Exotic tropical arrangement.jpg', alt: 'Exotic tropical arrangement', isPrimary: false },
+        { url: '/images/tropical-paradise.jpg', alt: 'Tropical Paradise', isPrimary: true },
+        { url: '/images/tropical-flowers-detail.jpg', alt: 'Tropical flowers detail', isPrimary: false },
+        { url: '/images/exotic-tropical-arrangement.jpg', alt: 'Exotic tropical arrangement', isPrimary: false },
       ],
     },
   ]
@@ -779,8 +779,8 @@ async function main() {
           estimatedDelivery: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
           items: {
             create: [
-              { flowerId: flower1.id, quantity: 1, price: flower1.price, name: flower1.name, image: '/images/Eternal Rose Bouquet.jpg' },
-              { flowerId: flower2.id, quantity: 1, price: flower2.price, name: flower2.name, image: '/images/Blush Peony Dreams.jpg' },
+              { flowerId: flower1.id, quantity: 1, price: flower1.price, name: flower1.name, image: '/images/eternal-rose-bouquet.jpg' },
+              { flowerId: flower2.id, quantity: 1, price: flower2.price, name: flower2.name, image: '/images/blush-peony-dreams.jpg' },
             ],
           },
         },
