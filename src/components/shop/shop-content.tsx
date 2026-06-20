@@ -37,13 +37,37 @@ export function ShopContent({
   const [showFilters, setShowFilters] = useState(false)
   const [search, setSearch] = useState(searchParams.search || '')
 
-  function updateParams(updates: Record<string, string | undefined>) {
+  // FIX: updateParams now only resets page to 1 when a FILTER changes
+  // (not when the page number itself is the thing being updated).
+  // Previously every call hardcoded page: '1', which silently overwrote
+  // the page number passed in by the pagination buttons.
+  function updateParams(
+    updates: Record<string, string | undefined>,
+    options: { resetPage?: boolean } = { resetPage: true }
+  ) {
     const params = new URLSearchParams()
-    const merged = { ...searchParams, ...updates, page: '1' }
+    const merged: Record<string, string | undefined> = {
+      ...searchParams,
+      ...updates,
+    }
+
+    // Only force page back to 1 when changing a filter/sort/search,
+    // never when the page itself is being changed via pagination.
+    if (options.resetPage && !('page' in updates)) {
+      merged.page = '1'
+    }
+
     Object.entries(merged).forEach(([k, v]) => {
       if (v) params.set(k, v)
     })
-    startTransition(() => router.push(`/shop?${params.toString()}`))
+
+    startTransition(() => {
+      router.push(`/shop?${params.toString()}`)
+    })
+  }
+
+  function goToPage(page: number) {
+    updateParams({ page: String(page) }, { resetPage: false })
   }
 
   function handleSearch(e: React.FormEvent) {
@@ -270,12 +294,14 @@ export function ShopContent({
             return (
               <button
                 key={p}
-                onClick={() => updateParams({ page: String(p) })}
+                onClick={() => goToPage(p)}
+                disabled={isPending}
                 className={cn(
                   'w-10 h-10 rounded-xl text-sm font-medium transition-all',
                   currentPage === p
                     ? 'bg-rose-400 text-white shadow-bloom'
-                    : 'bg-white text-stone-600 border border-rose-100 hover:border-rose-300'
+                    : 'bg-white text-stone-600 border border-rose-100 hover:border-rose-300',
+                  isPending && 'opacity-60 cursor-wait'
                 )}
               >
                 {p}
