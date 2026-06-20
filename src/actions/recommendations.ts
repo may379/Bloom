@@ -3,10 +3,19 @@
 import { prisma } from '@/lib/prisma'
 import { RecommendationInput, RecommendationResult } from '@/types'
 
-export async function getAIRecommendation(input: RecommendationInput): Promise<RecommendationResult[]> {
+export class AIRecommendationError extends Error {}
+
+export async function getAIRecommendation(
+  input: RecommendationInput
+): Promise<RecommendationResult[]> {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new AIRecommendationError(
+      'AI Stylist is currently unavailable: missing OpenAI API key.'
+    )
+  }
+
   const { occasion, budget, colors } = input
 
-  // Parse budget range
   const [minBudget, maxBudget] = budget === 'under-50'
     ? [0, 50]
     : budget === '50-100'
@@ -15,7 +24,6 @@ export async function getAIRecommendation(input: RecommendationInput): Promise<R
     ? [100, 150]
     : [150, 999]
 
-  // Fetch available flowers from DB
   const flowers = await prisma.flower.findMany({
     where: {
       stock: { gt: 0 },
@@ -32,7 +40,6 @@ export async function getAIRecommendation(input: RecommendationInput): Promise<R
     return []
   }
 
-  // Build catalogue summary for the AI
   const catalogue = flowers.map((f) => ({
     id: f.id,
     name: f.name,
@@ -75,12 +82,13 @@ Respond ONLY with valid JSON in this exact format, no markdown, no extra text:
 }
 `
 
+  let response: Response
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
@@ -89,81 +97,61 @@ Respond ONLY with valid JSON in this exact format, no markdown, no extra text:
             role: 'system',
             content: 'You are an expert floral designer. Always respond with valid JSON only, no markdown.',
           },
-          {
-            role: 'user',
-            content: prompt,
-          },
+          { role: 'user', content: prompt },
         ],
         temperature: 0.7,
         max_tokens: 1000,
       }),
     })
-
-    if (!response.ok) {
-      console.error('OpenAI API error:', response.status)
-      return fallbackRecommendations(flowers, input)
-    }
-
-    const data = await response.json()
-    const content = data.choices?.[0]?.message?.content
-
-    if (!content) {
-      return fallbackRecommendations(flowers, input)
-    }
-
-    // Parse JSON safely
-    const cleaned = content.replace(/```json|```/g, '').trim()
-    const parsed = JSON.parse(cleaned)
-    const recs = parsed.recommendations || []
-
-    // Map AI response back to flower objects
-    const results: RecommendationResult[] = []
-
-    for (const rec of recs) {
-      const flower = flowers.find((f) => f.id === rec.id)
-      if (!flower) continue
-      results.push({
-        flower,
-        explanation: rec.explanation || '',
-        suggestedFlowers: rec.suggestedFlowers || [],
-        confidence: Math.min(rec.confidence || 80, 99),
-      })
-    }
-
-    return results.length > 0 ? results : fallbackRecommendations(flowers, input)
-
   } catch (err) {
-    console.error('OpenAI recommendation error:', err)
-    // Graceful fallback to rule-based if OpenAI fails
-    return fallbackRecommendations(flowers, input)
-  }
-}
-
-// ── Fallback rule-based (used if OpenAI fails) ───────────────────────────────
-function fallbackRecommendations(flowers: any[], input: RecommendationInput): RecommendationResult[] {
-  const { occasion, colors } = input
-
-  const scored = flowers.map((flower) => {
-    let score = 50
-    if (flower.occasion?.includes(occasion)) score += 30
-    if (flower.featured) score += 10
-    if (flower.bestseller) score += 8
-    const matchedColors = colors.filter((c) =>
-      flower.colors?.some((fc: string) => fc.toLowerCase() === c.toLowerCase())
+    throw new AIRecommendationError(
+      'Could not reach OpenAI. Please check your connection and try again.'
     )
-    score += matchedColors.length * 10
-    if (flower.stock > 10) score += 5
-    if (flower.isNew) score += 5
-    return { flower, score }
-  })
+  }
 
-  scored.sort((a, b) => b.score - a.score)
+  if (!response.ok) {
+    const errBody = await response.text().catch(() => '')
+    console.error('OpenAI API error:', response.status, errBody)
+    throw new AIRecommendationError(
+      `OpenAI request failed (status ${response.status}). Please try again in a moment.`
+    )
+  }
 
-  return scored.slice(0, 3).map(({ flower, score }) => ({
-    flower,
-    explanation: `The ${flower.name} is a wonderful choice for ${occasion}. This ${flower.category.name.toLowerCase()} arrangement is one of our most cherished bouquets, crafted with the finest seasonal blooms.`,
-    suggestedFlowers: ['Roses', 'Peonies', 'Ranunculus', 'Eucalyptus'],
-    confidence: Math.min(Math.round((score / 100) * 100), 92),
-  }))
+  const data = await response.json()
+  const content = data.choices?.[0]?.message?.content
+
+  if (!content) {
+    throw new AIRecommendationError('OpenAI returned an empty response. Please try again.')
+  }
+
+  let parsed: { recommendations?: any[] }
+  try {
+    const cleaned = content.replace(/```json|```/g, '').trim()
+    parsed = JSON.parse(cleaned)
+  } catch (err) {
+    console.error('Failed to parse OpenAI response:', content)
+    throw new AIRecommendationError('AI Stylist returned an unexpected response. Please try again.')
+  }
+
+  const recs = parsed.recommendations || []
+  const results: RecommendationResult[] = []
+
+  for (const rec of recs) {
+    const flower = flowers.find((f) => f.id === rec.id)
+    if (!flower) continue
+    results.push({
+      flower,
+      explanation: rec.explanation || '',
+      suggestedFlowers: rec.suggestedFlowers || [],
+      confidence: Math.min(rec.confidence || 80, 99),
+    })
+  }
+
+  if (!results.length) {
+    throw new AIRecommendationError(
+      'AI Stylist could not match any bouquets to your preferences. Please try different options.'
+    )
+  }
+
+  return results
 }
-
