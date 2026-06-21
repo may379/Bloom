@@ -186,9 +186,8 @@ Built by **May Amor**, a full-stack developer (MERN, Next.js, TypeScript, Python
 
 - 🎓 BSc Computer Science — Software Engineering & Information Systems, ISIMA Mahdia (2025)
 - 🌍 Languages: Arabic (native) · French (fluent) · English (professional) · German (B1)
-- 🔗 [Portfolio](https://portfolio-mu-two-43.vercel.app) · [GitHub](https://github.com/may379) · [LinkedIn](#)
+- 🔗 [Portfolio](https://portfolio-mu-two-43.vercel.app) · [GitHub](https://github.com/may379) · [LinkedIn](https://www.linkedin.com/in/may-amor-abb049305)
 
-Other projects: [JobLens AI](https://job-ai-theta.vercel.app) (AI recruitment matching), [POSPro](https://pospro-five.vercel.app) (hybrid POS/e-commerce), [ClinicMS](https://clinic-app-weld.vercel.app) (clinic management system).
 
 ---
 
