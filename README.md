@@ -180,12 +180,11 @@ Deployed on **Vercel**, with PostgreSQL hosted on **Neon**. CI runs Prisma gener
 
 ---
 
-## 👩‍💻 About the Developer
+## 👩‍💻  Author
 
-Built by **May Amor**, a full-stack developer (MERN, Next.js, TypeScript, Python/FastAPI) based in Tunisia, open to junior developer roles both locally and across Europe — particularly the Netherlands, given its strong demand for TypeScript/React talent and an English-first tech culture.
+Built by **May Amor**, a full-stack developer (MERN, Next.js, TypeScript, Python/FastAPI)
 
-- 🎓 BSc Computer Science — Software Engineering & Information Systems, ISIMA Mahdia (2025)
-- 🌍 Languages: Arabic (native) · French (fluent) · English (professional) · German (B1)
+
 - 🔗 [Portfolio](https://portfolio-mu-two-43.vercel.app) · [GitHub](https://github.com/may379) · [LinkedIn](https://www.linkedin.com/in/may-amor-abb049305)
 
 
