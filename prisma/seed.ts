@@ -114,7 +114,7 @@ async function main() {
       name: 'Sophie Laurent',
       password: userPassword,
       role: Role.USER,
-      phone: '+31 6 12345678',
+      phone: '+216 20888549',
     },
   })
 
