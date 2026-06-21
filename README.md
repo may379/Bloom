@@ -1,264 +1,197 @@
-# 🌸 Bloom & Blossom — Premium Floral E-Commerce
+# 🌸 Bloom & Blossom
 
-A portfolio-level, production-ready full-stack flower boutique built with Next.js 14, TypeScript, PostgreSQL, Prisma, and NextAuth.
+**A premium, full-stack floral e-commerce platform** — built to demonstrate production-grade engineering across the modern web stack: Next.js 14, TypeScript, PostgreSQL, Prisma, NextAuth, and real AI integration via OpenAI.
+
+🔗 **Live demo:** https://bloom-ivory-kappa.vercel.app
+📦 **Repository:** https://github.com/may379/Bloom
 
 ---
 
-## ✨ Features
+## 📸 Screenshots
 
-- **Premium UI/UX** — Romantic, elegant design with Framer Motion animations
-- **Full E-Commerce** — Shop, product detail, cart, and checkout flows
-- **AI Bouquet Stylist** — Smart recommendation engine (OpenAI-ready)
-- **Authentication** — NextAuth with email/password, role-based access (USER/ADMIN)
-- **Admin Dashboard** — Full product, order, user, and category management
-- **Server Components** — Next.js 14 App Router with efficient data fetching
-- **Type-Safe** — End-to-end TypeScript with Zod validation
-- **SEO Ready** — Metadata API, sitemap, robots.txt, Open Graph
+<table>
+  <tr>
+    <td width="50%"><img src="public/screenshots/homepage.png" alt="Homepage" /></td>
+    <td width="50%"><img src="public/screenshots/shop.png" alt="Shop page" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Homepage</b></td>
+    <td align="center"><b>Shop — Catalogue & Filters</b></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="public/screenshots/product-detail.png" alt="Product detail page" /></td>
+    <td width="50%"><img src="public/screenshots/ai-stylist.png" alt="AI Stylist" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Product Detail</b></td>
+    <td align="center"><b>AI Floral Stylist</b></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="public/screenshots/admin-dashboard.png" alt="Admin dashboard" /></td>
+    <td width="50%"><img src="public/screenshots/checkout.png" alt="Checkout page" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Admin Dashboard</b></td>
+    <td align="center"><b>Checkout Flow</b></td>
+  </tr>
+</table>
+
+---
+
+## 📋 Demo Accounts
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | `admin@bloomblossom.com` | `Admin123!` |
+| Customer | `demo@bloomblossom.com` | `User123!` |
+
+---
+
+## ✨ Why This Project
+
+Most portfolio projects stop at CRUD. Bloom & Blossom goes further — it's built to mirror what a small e-commerce team would actually ship:
+
+- A **real AI feature** (OpenAI GPT-4o-mini), not a mocked one
+- **Role-based access control** separating customer and admin experiences
+- A complete **commerce flow**: catalogue → cart → checkout → order tracking → admin fulfillment
+- Production concerns handled from day one: SEO metadata, image optimization, server-side rendering, and a normalized relational schema
 
 ---
 
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS + custom bloom design system |
-| Animations | Framer Motion |
-| Database | PostgreSQL |
-| ORM | Prisma |
-| Auth | NextAuth v4 |
-| Validation | Zod + React Hook Form |
-| State | Zustand (cart) |
-| Deployment | Vercel |
+|---|---|
+| **Framework** | Next.js 14 (App Router, Server Components, Server Actions) |
+| **Language** | TypeScript (strict mode) |
+| **Styling** | Tailwind CSS, Framer Motion |
+| **Database** | PostgreSQL (hosted on Neon) |
+| **ORM** | Prisma |
+| **Auth** | NextAuth.js (credentials provider, JWT sessions, RBAC) |
+| **State** | Zustand (client-side cart) |
+| **Forms & Validation** | React Hook Form + Zod |
+| **AI** | OpenAI API (GPT-4o-mini) |
+| **Deployment** | Vercel |
+| **Testing** | Vitest, Testing Library |
 
 ---
 
-## 🚀 Quick Start (Local)
+## 🧩 Core Features
 
-### Prerequisites
-- Node.js 18+
-- PostgreSQL 14+ running locally
+### Customer-facing
+- Browse, search, and filter a catalogue of 30 floral arrangements across 8 categories
+- Server-rendered product detail pages with image galleries and customer reviews
+- Persistent cart (Zustand) with quantity management
+- Full checkout flow with order summary and confirmation
+- Order history with live status tracking (Pending → Confirmed → Shipped → Delivered)
+- **AI Floral Stylist** — describes an occasion, budget, and colour preference; GPT-4o-mini returns 3 personalized bouquet recommendations with natural-language explanations, pulled live from the actual product catalogue (not hardcoded)
 
-### 1. Clone & Install
+### Admin dashboard
+- Protected by role-based middleware — customers cannot access admin routes, even via direct URL
+- Full CRUD on products, categories, and orders
+- Order status management with real-time updates
+- User management overview
+- Dashboard metrics (revenue, order volume, customer count)
+
+### Engineering details that matter
+- Relational schema with 12 normalized models (`User`, `Order`, `OrderItem`, `Flower`, `Review`, `Cart`, etc.) and referential integrity enforced at the database level
+- Server Actions for mutations — no manually wired REST endpoints for internal app logic
+- Zod schemas shared between client validation and server-side enforcement
+- Optimized images via `next/image` with remote pattern allowlisting
+- SEO: dynamic metadata, sitemap.xml, robots.txt, Open Graph tags
+- 40+ unit tests (Vitest) covering validation schemas and cart state management
+
+---
+
+## 🤖 The AI Stylist — How It Actually Works
+
+This isn't a rule-based system dressed up as AI. The recommendation flow is:
+
+1. Customer selects occasion, budget range, and colour preferences
+2. The server queries Postgres for in-stock products matching the budget
+3. That live catalogue subset is sent to **OpenAI's GPT-4o-mini** with a structured prompt
+4. The model selects the top 3 matches and writes a natural-language rationale for each
+5. If the OpenAI call fails, the user sees an explicit error state — there is no silent fallback to fake data
+
+```
+Customer preferences → Postgres query (live stock) → GPT-4o-mini → Ranked recommendations
+```
+
+---
+
+## 🏗️ Architecture
+
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── (auth)/              # Login, register
+│   ├── (shop)/               # Public storefront: shop, product, cart, checkout
+│   ├── (dashboard)/          # Customer account: profile, orders
+│   ├── (admin)/               # Protected admin panel
+│   └── ai-recommendation/    # AI Stylist
+├── actions/                 # Server Actions (mutations & queries)
+├── components/                # UI, organized by domain
+├── lib/                       # Prisma client, auth config, validation schemas, utils
+├── hooks/                     # Zustand cart store, toast hook
+└── tests/                     # Vitest unit tests
+prisma/
+├── schema.prisma              # 12-model relational schema
+└── seed.ts                    # Seed script: categories, products, demo users, sample orders
+```
+
+---
+
+## 🚀 Running Locally
 
 ```bash
-git clone <your-repo>
+git clone https://github.com/may379/bloom-blossom.git
 cd bloom-blossom
 npm install
 ```
 
-### 2. Environment Variables
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env`:
+Create `.env` from `.env.example` and fill in:
 
 ```env
-DATABASE_URL="postgresql://YOUR_USER:YOUR_PASSWORD@localhost:5432/bloom_blossom"
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="your-super-secret-key-min-32-chars"
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
+DATABASE_URL=
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=
+OPENAI_API_KEY=
 ```
 
-Generate a secure secret:
 ```bash
-openssl rand -base64 32
-```
-
-### 3. Database Setup
-
-```bash
-# Create and migrate the database
-npx prisma migrate dev --name init
-
-# Seed with 20 products, categories, users
+npx prisma migrate dev
 npm run db:seed
-```
-
-### 4. Run Development Server
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+App runs at `http://localhost:3000`.
 
----
-
-## 🔑 Demo Accounts
-
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@bloomblossom.com | Admin123! |
-| User | demo@bloomblossom.com | User123! |
-
----
-
-## 📁 Project Structure
-
-```
-bloom-blossom/
-├── prisma/
-│   ├── schema.prisma          # Database models
-│   └── seed.ts                # 20 sample products + users
-├── src/
-│   ├── app/                   # Next.js App Router
-│   │   ├── (auth)/            # Login, Register
-│   │   ├── (shop)/            # Shop, Product, Cart, Checkout
-│   │   ├── (dashboard)/       # Profile, Orders
-│   │   ├── (admin)/           # Admin dashboard
-│   │   ├── ai-recommendation/ # AI Stylist page
-│   │   └── api/               # API routes
-│   ├── actions/               # Server Actions
-│   │   ├── auth.ts
-│   │   ├── products.ts
-│   │   ├── orders.ts
-│   │   ├── newsletter.ts
-│   │   └── recommendations.ts
-│   ├── components/
-│   │   ├── admin/             # Admin-specific components
-│   │   ├── auth/              # Auth forms
-│   │   ├── home/              # Homepage sections
-│   │   ├── layout/            # Navbar, Footer, Providers
-│   │   ├── shop/              # Shop components
-│   │   └── ui/                # UI primitives (Toast, etc.)
-│   ├── hooks/
-│   │   ├── use-cart.ts        # Zustand cart store
-│   │   └── use-toast.ts
-│   ├── lib/
-│   │   ├── auth.ts            # NextAuth config
-│   │   ├── prisma.ts          # Prisma singleton
-│   │   ├── utils.ts           # Utilities + helpers
-│   │   └── validations.ts     # Zod schemas
-│   ├── styles/
-│   │   └── globals.css        # Bloom design system
-│   └── types/
-│       └── index.ts           # TypeScript types
-├── .env.example
-├── docker-compose.yml
-├── Dockerfile
-├── next.config.js
-├── tailwind.config.ts
-└── tsconfig.json
-```
-
----
-
-## 🐳 Docker Setup
+### Tests
 
 ```bash
-# Start PostgreSQL + App
-docker-compose up -d
-
-# Run migrations inside container
-docker-compose exec app npx prisma migrate deploy
-docker-compose exec app npm run db:seed
-```
-
-Access at [http://localhost:3000](http://localhost:3000)
-
----
-
-## ☁️ Vercel Deployment
-
-### 1. Create a PostgreSQL database
-Use [Neon](https://neon.tech), [Supabase](https://supabase.com), or [Vercel Postgres](https://vercel.com/storage/postgres).
-
-### 2. Deploy to Vercel
-
-```bash
-npm i -g vercel
-vercel
-```
-
-### 3. Set Environment Variables in Vercel Dashboard
-
-```
-DATABASE_URL         = your_postgres_connection_string
-NEXTAUTH_URL         = https://your-app.vercel.app
-NEXTAUTH_SECRET      = your_secure_secret
-NEXT_PUBLIC_APP_URL  = https://your-app.vercel.app
-```
-
-### 4. Run migrations on your remote database
-
-```bash
-DATABASE_URL="your_remote_url" npx prisma migrate deploy
-DATABASE_URL="your_remote_url" npm run db:seed
+npm run test
 ```
 
 ---
 
-## 🧪 Available Scripts
+## 📦 Deployment
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run db:seed` | Seed the database |
-| `npm run db:studio` | Open Prisma Studio |
-| `npm run db:reset` | Reset & re-seed database |
+Deployed on **Vercel**, with PostgreSQL hosted on **Neon**. CI runs Prisma generation and a production build on every push to `main`.
 
 ---
 
-## 🤖 AI Feature — OpenAI Integration
+## 👩‍💻 About the Developer
 
-The AI Bouquet Stylist is currently powered by smart rule-based logic. To connect to OpenAI:
+Built by **May Amor**, a full-stack developer (MERN, Next.js, TypeScript, Python/FastAPI) based in Tunisia, open to junior developer roles both locally and across Europe — particularly the Netherlands, given its strong demand for TypeScript/React talent and an English-first tech culture.
 
-1. Add `OPENAI_API_KEY` to your `.env`
-2. Install the SDK: `npm install openai`
-3. Replace `scoreAndReturn()` in `src/actions/recommendations.ts` with:
+- 🎓 BSc Computer Science — Software Engineering & Information Systems, ISIMA Mahdia (2025)
+- 🌍 Languages: Arabic (native) · French (fluent) · English (professional) · German (B1)
+- 🔗 [Portfolio](https://portfolio-mu-two-43.vercel.app) · [GitHub](https://github.com/may379) · [LinkedIn](#)
 
-```typescript
-import OpenAI from 'openai'
-const openai = new OpenAI()
-
-const completion = await openai.chat.completions.create({
-  model: 'gpt-4o',
-  messages: [
-    { role: 'system', content: 'You are an expert floral designer...' },
-    { role: 'user', content: `Recommend bouquets for: ${JSON.stringify(input)}` }
-  ],
-  response_format: { type: 'json_object' }
-})
-```
+Other projects: [JobLens AI](https://job-ai-theta.vercel.app) (AI recruitment matching), [POSPro](https://pospro-five.vercel.app) (hybrid POS/e-commerce), [ClinicMS](https://clinic-app-weld.vercel.app) (clinic management system).
 
 ---
 
-## 💳 Stripe Payment Integration
+## 📄 License
 
-The checkout architecture is Stripe-ready. To enable payments:
-
-1. Install: `npm install stripe @stripe/stripe-js`
-2. Add `STRIPE_SECRET_KEY` and `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` to `.env`
-3. Replace the payment placeholder in `/checkout` with Stripe Elements
-4. Add a webhook handler at `/api/webhooks/stripe`
-
----
-
-## 📐 Design System
-
-The Bloom design system includes:
-
-- **Colors**: Blush pink, soft rose, lavender, cream, soft gold
-- **Typography**: Cormorant Garamond (serif), Jost (sans), Dancing Script (script)
-- **Components**: `.btn-bloom`, `.card-bloom`, `.input-bloom`, `.badge-bloom`
-- **Animations**: Framer Motion page transitions, floating elements, hover effects
-
----
-
-## 🌍 Internationalization Ready
-
-The architecture supports i18n. To add Dutch/German locales:
-
-1. Install: `npm install next-intl`
-2. Add locale files to `/messages/nl.json`, `/messages/de.json`
-3. Wrap the app in `NextIntlClientProvider`
-
----
-
-Made with 🌸 by a passionate developer targeting the European tech market.
+This project is available for portfolio and educational reference. Contact for commercial use inquiries.
