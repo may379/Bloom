@@ -131,9 +131,10 @@ async function main() {
     },
   })
 
-  // If an earlier production seed created the public demo admin, rotate its
-  // predictable password too. Production seeding does not create a new admin.
-  if (process.env.NODE_ENV === 'production') {
+  // Production admin access must be provisioned intentionally. Do not create
+  // a public demo admin, and never replace an existing admin password with an
+  // undisclosed random value that would lock the owner out.
+  if (process.env.NODE_ENV === 'production' && process.env.SEED_ADMIN_PASSWORD) {
     const admin = await prisma.user.findUnique({
       where: { email: 'admin@bloomblossom.com' },
       select: { id: true },
@@ -141,9 +142,13 @@ async function main() {
     if (admin) {
       await prisma.user.update({
         where: { id: admin.id },
-        data: { password: await bcrypt.hash((await import('crypto')).randomBytes(32).toString('hex'), 12) },
+        data: { password: await bcrypt.hash(process.env.SEED_ADMIN_PASSWORD, 12) },
       })
+    } else {
+      console.warn('SEED_ADMIN_PASSWORD is set, but no seeded admin exists; create the production admin through a controlled setup process.')
     }
+  } else if (process.env.NODE_ENV === 'production') {
+    console.warn('Production seed skipped admin provisioning. Configure administrator access through a controlled setup process.')
   }
 
   // ── Flowers (30 products with multiple images each) ────────────────────────
