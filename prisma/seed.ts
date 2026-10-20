@@ -120,7 +120,9 @@ async function main() {
   )
   const demoUser = await prisma.user.upsert({
     where: { email: 'demo@bloomblossom.com' },
-    update: {},
+    // Rotate the demo account password on every production seed run so a
+    // previously seeded public demo password cannot remain valid.
+    update: { password: userPassword },
     create: {
       email: 'demo@bloomblossom.com',
       name: 'Sophie Laurent',
@@ -128,6 +130,21 @@ async function main() {
       role: Role.USER,
     },
   })
+
+  // If an earlier production seed created the public demo admin, rotate its
+  // predictable password too. Production seeding does not create a new admin.
+  if (process.env.NODE_ENV === 'production') {
+    const admin = await prisma.user.findUnique({
+      where: { email: 'admin@bloomblossom.com' },
+      select: { id: true },
+    })
+    if (admin) {
+      await prisma.user.update({
+        where: { id: admin.id },
+        data: { password: (await import('crypto')).randomBytes(32).toString('hex') },
+      })
+    }
+  }
 
   // ── Flowers (30 products with multiple images each) ────────────────────────
   const flowersData = [
