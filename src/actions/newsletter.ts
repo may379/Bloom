@@ -3,16 +3,17 @@
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { profileSchema } from '@/lib/validations'
+import { newsletterSchema, profileSchema, reviewSchema } from '@/lib/validations'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
 // Newsletter
 export async function subscribeNewsletter(email: string) {
+  const validated = newsletterSchema.parse({ email: email.trim().toLowerCase() })
   await prisma.newsletterSubscriber.upsert({
-    where: { email },
+    where: { email: validated.email },
     update: { active: true },
-    create: { email },
+    create: { email: validated.email },
   })
 }
 
@@ -26,6 +27,19 @@ export async function updateProfile(data: z.infer<typeof profileSchema>) {
   const user = await prisma.user.update({
     where: { id: session.user.id },
     data: validated,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+      address: true,
+      city: true,
+      country: true,
+      postalCode: true,
+      image: true,
+      role: true,
+      createdAt: true,
+    },
   })
 
   revalidatePath('/profile')
@@ -55,17 +69,33 @@ export async function getProfile() {
 }
 
 // Reviews
-export async function createReview(flowerId: string, data: { rating: number; title?: string; body: string }) {
+export async function createReview(flowerId: string, data: z.infer<typeof reviewSchema>) {
   const session = await getServerSession(authOptions)
-  if (!session) throw new Error('Please sign in to leave a review')
+  if (!session?.user?.id) throw new Error('Please sign in to leave a review')
+  if (typeof flowerId !== 'string' || flowerId.length === 0) {
+    throw new Error('Invalid product')
+  }
+
+  const validated = reviewSchema.parse(data)
+  const reviewData = {
+    rating: validated.rating,
+    title: validated.title?.trim() || null,
+    body: validated.body.trim(),
+  }
+
+  const flowerExists = await prisma.flower.findUnique({
+    where: { id: flowerId },
+    select: { id: true },
+  })
+  if (!flowerExists) throw new Error('Product not found')
 
   const review = await prisma.review.upsert({
     where: { flowerId_userId: { flowerId, userId: session.user.id } },
-    update: data,
+    update: reviewData,
     create: {
       flowerId,
       userId: session.user.id,
-      ...data,
+      ...reviewData,
     },
   })
 
@@ -103,6 +133,9 @@ export async function getAdminUsers(page = 1, limit = 20) {
   const session = await getServerSession(authOptions)
   if (!session || session.user.role !== 'ADMIN') throw new Error('Unauthorized')
 
+  const safePage = Number.isSafeInteger(page) && page > 0 ? page : 1
+  const safeLimit = Number.isSafeInteger(limit) && limit > 0 ? Math.min(limit, 100) : 20
+
   const [users, total] = await Promise.all([
     prisma.user.findMany({
       select: {
@@ -114,11 +147,11 @@ export async function getAdminUsers(page = 1, limit = 20) {
         _count: { select: { orders: true } },
       },
       orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
+      skip: (safePage - 1) * safeLimit,
+      take: safeLimit,
     }),
     prisma.user.count(),
   ])
 
-  return { users, total, pages: Math.ceil(total / limit) }
+  return { users, total, pages: Math.ceil(total / safeLimit) }
 }
