@@ -7,7 +7,7 @@ export const loginSchema = z.object({
 
 export const registerSchema = z.object({
   name: z.string().trim().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email'),
+  email: z.string().trim().toLowerCase().email('Please enter a valid email'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
@@ -24,12 +24,12 @@ export const checkoutSchema = z.object({
   city: z.string().trim().min(2, 'City is required'),
   country: z.string().trim().min(2, 'Country is required'),
   postalCode: z.string().trim().min(4, 'Postal code is required'),
-  notes: z.string().optional(),
+  notes: z.string().trim().max(1000, 'Notes must be 1000 characters or fewer').optional(),
 })
 
 export const profileSchema = z.object({
   name: z.string().trim().min(2, 'Name must be at least 2 characters'),
-  phone: z.string().optional(),
+  phone: z.string().trim().optional(),
   address: z.string().trim().optional(),
   city: z.string().trim().optional(),
   country: z.string().trim().optional(),
@@ -37,8 +37,8 @@ export const profileSchema = z.object({
 })
 
 export const productSchema = z.object({
-  name: z.string().min(2, 'Name is required'),
-  description: z.string().min(10, 'Description is required'),
+  name: z.string().trim().min(2, 'Name is required').max(120),
+  description: z.string().trim().min(10, 'Description is required').max(10000),
   price: z.coerce.number().positive('Price must be positive'),
   comparePrice: z.coerce.number().positive().optional().nullable(),
   stock: z.coerce.number().int().min(0, 'Stock cannot be negative'),
@@ -63,7 +63,7 @@ export const reviewSchema = z.object({
 })
 
 export const newsletterSchema = z.object({
-  email: z.string().email('Please enter a valid email'),
+  email: z.string().trim().toLowerCase().email('Please enter a valid email'),
 })
 
 export type LoginInput = z.infer<typeof loginSchema>
