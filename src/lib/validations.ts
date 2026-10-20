@@ -1,12 +1,12 @@
 import { z } from 'zod'
 
 export const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email'),
+  email: z.string().trim().toLowerCase().email('Please enter a valid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
 export const registerSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
+  name: z.string().trim().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
   confirmPassword: z.string(),
@@ -16,24 +16,24 @@ export const registerSchema = z.object({
 })
 
 export const checkoutSchema = z.object({
-  firstName: z.string().min(2, 'First name is required'),
-  lastName: z.string().min(2, 'Last name is required'),
-  email: z.string().email('Valid email is required'),
-  phone: z.string().optional(),
-  address: z.string().min(5, 'Address is required'),
-  city: z.string().min(2, 'City is required'),
-  country: z.string().min(2, 'Country is required'),
-  postalCode: z.string().min(4, 'Postal code is required'),
+  firstName: z.string().trim().min(2, 'First name is required'),
+  lastName: z.string().trim().min(2, 'Last name is required'),
+  email: z.string().trim().toLowerCase().email('Valid email is required'),
+  phone: z.string().trim().optional(),
+  address: z.string().trim().min(5, 'Address is required'),
+  city: z.string().trim().min(2, 'City is required'),
+  country: z.string().trim().min(2, 'Country is required'),
+  postalCode: z.string().trim().min(4, 'Postal code is required'),
   notes: z.string().optional(),
 })
 
 export const profileSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
+  name: z.string().trim().min(2, 'Name must be at least 2 characters'),
   phone: z.string().optional(),
-  address: z.string().optional(),
-  city: z.string().optional(),
-  country: z.string().optional(),
-  postalCode: z.string().optional(),
+  address: z.string().trim().optional(),
+  city: z.string().trim().optional(),
+  country: z.string().trim().optional(),
+  postalCode: z.string().trim().optional(),
 })
 
 export const productSchema = z.object({
@@ -58,8 +58,8 @@ export const productSchema = z.object({
 
 export const reviewSchema = z.object({
   rating: z.number().int().min(1).max(5),
-  title: z.string().optional(),
-  body: z.string().min(10, 'Review must be at least 10 characters'),
+  title: z.string().trim().optional(),
+  body: z.string().trim().min(10, 'Review must be at least 10 characters'),
 })
 
 export const newsletterSchema = z.object({
