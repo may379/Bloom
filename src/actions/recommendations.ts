@@ -3,7 +3,7 @@
 import { prisma } from '@/lib/prisma'
 import { RecommendationInput, RecommendationResult } from '@/types'
 
-export class AIRecommendationError extends Error {}
+class AIRecommendationError extends Error {}
 
 export async function getAIRecommendation(
   input: RecommendationInput
