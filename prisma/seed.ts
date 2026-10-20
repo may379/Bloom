@@ -141,7 +141,7 @@ async function main() {
     if (admin) {
       await prisma.user.update({
         where: { id: admin.id },
-        data: { password: (await import('crypto')).randomBytes(32).toString('hex') },
+        data: { password: await bcrypt.hash((await import('crypto')).randomBytes(32).toString('hex'), 12) },
       })
     }
   }
