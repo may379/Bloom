@@ -7,6 +7,7 @@ import { prisma } from '@/lib/prisma'
 import { checkoutSchema } from '@/lib/validations'
 import { z } from 'zod'
 import { CartItemLocal } from '@/types'
+import { OrderStatus } from '@prisma/client'
 
 export async function createOrder(
   shippingData: z.infer<typeof checkoutSchema>,
@@ -153,6 +154,9 @@ export async function getAllOrders(page = 1, limit = 20) {
   const session = await getServerSession(authOptions)
   if (!session || session.user.role !== 'ADMIN') throw new Error('Unauthorized')
 
+  const safePage = Number.isSafeInteger(page) && page > 0 ? page : 1
+  const safeLimit = Number.isSafeInteger(limit) && limit > 0 ? Math.min(limit, 100) : 20
+
   const [orders, total] = await Promise.all([
     prisma.order.findMany({
       include: {
@@ -160,22 +164,26 @@ export async function getAllOrders(page = 1, limit = 20) {
         items: { include: { flower: { select: { id: true, name: true } } } },
       },
       orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
+      skip: (safePage - 1) * safeLimit,
+      take: safeLimit,
     }),
     prisma.order.count(),
   ])
 
-  return { orders, total, pages: Math.ceil(total / limit) }
+  return { orders, total, pages: Math.ceil(total / safeLimit) }
 }
 
 export async function updateOrderStatus(id: string, status: string) {
   const session = await getServerSession(authOptions)
   if (!session || session.user.role !== 'ADMIN') throw new Error('Unauthorized')
+  if (typeof id !== 'string' || id.length === 0) throw new Error('Invalid order')
+  if (!Object.values(OrderStatus).includes(status as OrderStatus)) {
+    throw new Error('Invalid order status')
+  }
 
   const order = await prisma.order.update({
     where: { id },
-    data: { status: status as any },
+    data: { status: status as OrderStatus },
   })
 
   revalidatePath('/admin/orders')
