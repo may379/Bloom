@@ -93,30 +93,63 @@ async function main() {
   const [wedding, birthday, anniversary, mothersDay, valentines, sympathy, seasonal, luxury] = categories
 
   // ── Users ─────────────────────────────────────────────────────────────────
-  const adminPassword = await bcrypt.hash('Admin123!', 12)
-  await prisma.user.upsert({
-    where: { email: 'admin@bloomblossom.com' },
-    update: {},
-    create: {
-      email: 'admin@bloomblossom.com',
-      name: 'Admin',
-      password: adminPassword,
-      role: Role.ADMIN,
-    },
-  })
+  // Never provision a predictable administrator account in production.
+  // Local demo credentials are intentionally limited to non-production seeding.
+  if (process.env.NODE_ENV !== 'production') {
+    const adminPassword = await bcrypt.hash('Admin123!', 12)
+    await prisma.user.upsert({
+      where: { email: 'admin@bloomblossom.com' },
+      update: {},
+      create: {
+        email: 'admin@bloomblossom.com',
+        name: 'Admin',
+        password: adminPassword,
+        role: Role.ADMIN,
+      },
+    })
+  }
 
-  const userPassword = await bcrypt.hash('User123!', 12)
+  // The sample customer is used to attach seeded reviews and an example order.
+  // In production, assign an unpredictable password so public demo credentials
+  // cannot be used to sign in to the deployed database.
+  const userPassword = await bcrypt.hash(
+    process.env.NODE_ENV === 'production'
+      ? (await import('crypto')).randomBytes(32).toString('hex')
+      : 'User123!',
+    12
+  )
   const demoUser = await prisma.user.upsert({
     where: { email: 'demo@bloomblossom.com' },
-    update: {},
+    // Rotate the demo account password on every production seed run so a
+    // previously seeded public demo password cannot remain valid.
+    update: { password: userPassword },
     create: {
       email: 'demo@bloomblossom.com',
       name: 'Sophie Laurent',
       password: userPassword,
       role: Role.USER,
-      phone: '+216 20888549',
     },
   })
+
+  // Production admin access must be provisioned intentionally. Do not create
+  // a public demo admin, and never replace an existing admin password with an
+  // undisclosed random value that would lock the owner out.
+  if (process.env.NODE_ENV === 'production' && process.env.SEED_ADMIN_PASSWORD) {
+    const admin = await prisma.user.findUnique({
+      where: { email: 'admin@bloomblossom.com' },
+      select: { id: true },
+    })
+    if (admin) {
+      await prisma.user.update({
+        where: { id: admin.id },
+        data: { password: await bcrypt.hash(process.env.SEED_ADMIN_PASSWORD, 12) },
+      })
+    } else {
+      console.warn('SEED_ADMIN_PASSWORD is set, but no seeded admin exists; create the production admin through a controlled setup process.')
+    }
+  } else if (process.env.NODE_ENV === 'production') {
+    console.warn('Production seed skipped admin provisioning. Configure administrator access through a controlled setup process.')
+  }
 
   // ── Flowers (30 products with multiple images each) ────────────────────────
   const flowersData = [
@@ -796,12 +829,13 @@ async function main() {
   })
 
   console.log('✅ Database seeded successfully!')
-  console.log(`
-  📦 ${flowersData.length} flowers with 3 images each
+  console.log(`\n  📦 ${flowersData.length} flowers with 3 images each
   🗂️  8 categories
-  📧 Admin:     admin@bloomblossom.com / Admin123!
-  👤 Demo User: demo@bloomblossom.com  / User123!
   `)
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('  📧 Local admin: admin@bloomblossom.com / Admin123!')
+    console.log('  👤 Local demo:  demo@bloomblossom.com / User123!')
+  }
 }
 
 main()

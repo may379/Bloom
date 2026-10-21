@@ -44,20 +44,22 @@ export async function updateProduct(id: string, data: z.infer<typeof productSche
   const validated = productSchema.parse(data)
   const { images, ...rest } = validated
 
-  // Delete old images
-  await prisma.productImage.deleteMany({ where: { flowerId: id } })
+  const flower = await prisma.$transaction(async (tx) => {
+    // Keep the old images if updating the product fails.
+    await tx.productImage.deleteMany({ where: { flowerId: id } })
 
-  const flower = await prisma.flower.update({
-    where: { id },
-    data: {
-      ...rest,
-      price: rest.price,
-      comparePrice: rest.comparePrice || null,
-      images: {
-        create: images.map((img, i) => ({ ...img, order: i })),
+    return tx.flower.update({
+      where: { id },
+      data: {
+        ...rest,
+        price: rest.price,
+        comparePrice: rest.comparePrice || null,
+        images: {
+          create: images.map((img, i) => ({ ...img, order: i })),
+        },
       },
-    },
-    include: { images: true, category: true },
+      include: { images: true, category: true },
+    })
   })
 
   revalidatePath('/shop')
@@ -92,6 +94,11 @@ export async function getProducts(params?: {
     featured,
   } = params || {}
 
+  // Public query parameters are untrusted; bound pagination and search work.
+  const safePage = Number.isSafeInteger(page) && page > 0 ? page : 1
+  const safeLimit = Number.isSafeInteger(limit) && limit > 0 ? Math.min(limit, 48) : 12
+  const safeSearch = typeof search === 'string' ? search.trim().slice(0, 100) : ''
+
   const where: any = { stock: { gte: 0 } }
 
   if (category) {
@@ -99,11 +106,11 @@ export async function getProducts(params?: {
     if (cat) where.categoryId = cat.id
   }
 
-  if (search) {
+  if (safeSearch) {
     where.OR = [
-      { name: { contains: search, mode: 'insensitive' } },
-      { description: { contains: search, mode: 'insensitive' } },
-      { tags: { hasSome: [search.toLowerCase()] } },
+      { name: { contains: safeSearch, mode: 'insensitive' } },
+      { description: { contains: safeSearch, mode: 'insensitive' } },
+      { tags: { hasSome: [safeSearch.toLowerCase()] } },
     ]
   }
 
@@ -124,13 +131,13 @@ export async function getProducts(params?: {
         category: true,
       },
       orderBy,
-      skip: (page - 1) * limit,
-      take: limit,
+      skip: (safePage - 1) * safeLimit,
+      take: safeLimit,
     }),
     prisma.flower.count({ where }),
   ])
 
-  return { flowers, total, pages: Math.ceil(total / limit) }
+  return { flowers, total, pages: Math.ceil(total / safeLimit) }
 }
 
 export async function getProductById(id: string) {

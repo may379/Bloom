@@ -7,9 +7,11 @@ import { z } from 'zod'
 
 export async function registerUser(data: z.infer<typeof registerSchema>) {
   const validated = registerSchema.parse(data)
+  const email = validated.email.trim().toLowerCase()
+  const name = validated.name.trim()
 
   const existing = await prisma.user.findUnique({
-    where: { email: validated.email },
+    where: { email },
   })
 
   if (existing) {
@@ -20,8 +22,8 @@ export async function registerUser(data: z.infer<typeof registerSchema>) {
 
   const user = await prisma.user.create({
     data: {
-      name: validated.name,
-      email: validated.email,
+      name,
+      email,
       password: hashed,
     },
   })

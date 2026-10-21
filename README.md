@@ -38,12 +38,16 @@
 
 ---
 
-## 📋 Demo Accounts
+## 📋 Local Demo Accounts
+
+These predictable demo credentials are for **local development only** after running the seed script outside production. Do not use them for a deployed database.
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | `admin@bloomblossom.com` | `Admin123!` |
-| Customer | `demo@bloomblossom.com` | `User123!` |
+| Admin (local only) | `admin@bloomblossom.com` | `Admin123!` |
+| Customer (local only) | `demo@bloomblossom.com` | `User123!` |
+
+The seed script does not create the predictable admin account when `NODE_ENV=production`, and it assigns the seeded customer an unpredictable password in production. Configure production administrator access separately with a unique, strong credential; never reuse these local demo passwords.
 
 ---
 
